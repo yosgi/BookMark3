@@ -4,15 +4,9 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 import Web3 from 'web3'
+import {AccoutBar} from '../components/AccountHeader'
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-    console.log(web3)
-    // enable to Metamask wallet
-    // get web3 accounts
-    const accounts = web3.eth.getAccounts().then(console.log)
-  })
   return (
     <div className={styles.container}>
       <Head>
@@ -20,60 +14,21 @@ const Home: NextPage = () => {
         <meta name="description" content="bookmark in web3.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="text-3xl font-bold underline">
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+    
+      <div  className='z-[-1] fixed w-screen h-screen overflow-hidden'>
+        <Image
+          alt="background"
+          src="/background.png"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        
+        />
+      </div>
+     
+     
+     
+      <AccoutBar></AccoutBar>
     </div>
   )
 }
