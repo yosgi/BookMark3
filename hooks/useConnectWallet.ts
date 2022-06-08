@@ -28,6 +28,8 @@ export const useConnectWallet = (): UseConnectWallet => {
       setConnected(false);
     };
 
+
+
     try {
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
@@ -42,7 +44,15 @@ export const useConnectWallet = (): UseConnectWallet => {
       handleError();
     }
   }, []);
+  React.useEffect(() => {
+    connect();
 
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", checkAccountConnected);
+      }
+    };
+  }, [connect]);
 
 
   return { connected, connect };

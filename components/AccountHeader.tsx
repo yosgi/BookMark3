@@ -18,7 +18,7 @@ export const AccoutBar:React.FC = () => {
             <div className='text-white font-bold text-2xl'>BookMark3</div>
             {
                 account  ? 
-                <div className='text-white text-xs cursor-pointer  bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>{account.address.slice(0, 6)+ '...'}</div>:
+                <div className='text-white text-xs   bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>{account.address.slice(0, 6)+ '...'}</div>:
                 <div onClick={connect} className='text-white text-xs cursor-pointer  bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>Connect Wallect</div>
             }
            
