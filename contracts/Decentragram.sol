@@ -58,7 +58,7 @@ contract Decentragram {
     // Fetch the author
     address payable _author = _image.author;
     // Pay the author by sending them Ether
-   payable(address(_author)).transfer(msg.value);
+    payable(address(_author)).transfer(msg.value);
     // Increment the tip amount
     _image.tipAmount = _image.tipAmount + msg.value;
     // Update the image

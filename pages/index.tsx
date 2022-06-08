@@ -1,9 +1,18 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
+import Web3 from 'web3'
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+    console.log(web3)
+    // enable to Metamask wallet
+    // get web3 accounts
+    const accounts = web3.eth.getAccounts().then(console.log)
+  })
   return (
     <div className={styles.container}>
       <Head>
