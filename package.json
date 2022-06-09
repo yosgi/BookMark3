@@ -16,6 +16,8 @@
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-dropzone-component": "^3.2.0",
+    "react-markdown": "^8.0.3",
     "solidity-coverage": "^0.7.21"
   },
   "devDependencies": {
