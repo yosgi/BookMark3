@@ -8,7 +8,7 @@ import {AccoutBar} from '../components/AccountHeader'
 import {CreateAsset} from '../components/CreateAsset'
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div className="overflow-x-hidden">
       <Head>
         <title>BookMark3</title>
         <meta name="description" content="bookmark in web3.0" />
