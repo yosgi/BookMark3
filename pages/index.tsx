@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 import Web3 from 'web3'
 import {AccoutBar} from '../components/AccountHeader'
-
+import {CreateAsset} from '../components/CreateAsset'
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -22,13 +22,10 @@ const Home: NextPage = () => {
           layout="fill"
           objectFit="cover"
           quality={100}
-        
         />
       </div>
-     
-     
-     
       <AccoutBar></AccoutBar>
+      <CreateAsset></CreateAsset>
     </div>
   )
 }
