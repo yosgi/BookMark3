@@ -1,10 +1,9 @@
 import { DropzoneComponent } from "react-dropzone-component";
 import ReactMarkdown from "react-markdown";
-import {useBookMarkParser} from '../hooks/useBookMarkParser'
+import { useBookMarkParser } from "../hooks/useBookMarkParser";
 import "../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { useState } from "react";
-
 
 var componentConfig = {
     iconFiletypes: [".html"],
@@ -15,6 +14,7 @@ var djsConfig = { autoProcessQueue: false };
 
 export const CreateAsset: React.FC = () => {
     const [userInput, setInput] = useState("");
+    const { bookMarkJson, setBuffer } = useBookMarkParser("");
     // set userInput text
     const handleInputChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
@@ -26,24 +26,19 @@ export const CreateAsset: React.FC = () => {
         }
         setInput(value);
     };
-   
     const eventHandlers = {
-        addedfile: (file:Blob) => {
-            console.log(file);
+        addedfile: (file: Blob) => {
             const reader = new FileReader();
             reader.onload = (fileLoadedEvent) => {
                 if (fileLoadedEvent.target && fileLoadedEvent.target.result) {
                     const text = fileLoadedEvent.target.result;
-                    console.log(text)
-                    const json = toJSON(text);
+                    setBuffer(text);
                 }
-                
             };
-          
             reader.readAsText(file);
         },
     };
-   
+    console.log(bookMarkJson);
     return (
         <div className=" bg-white min-h-fit  rounded-t-xl p-6 ">
             <div className="max-w-screen-xl m-auto">
@@ -54,13 +49,33 @@ export const CreateAsset: React.FC = () => {
                         File types supported: html. Max size: 10 MB
                     </p>
                 </div>
-                <div className="w-80 h-44">
-                    <DropzoneComponent
-                        config={componentConfig}
-                        eventHandlers={eventHandlers}
-                        djsConfig={djsConfig}
-                    />
+                <div className="flex">
+                    <div className="w-80 h-44">
+                        {/* upload bookMark */}
+                        <DropzoneComponent
+                            config={componentConfig}
+                            eventHandlers={eventHandlers}
+                            djsConfig={djsConfig}
+                        />
+                    </div>
+                    <div>
+                        {/* show bookmark list */}
+                        <div className="ml-6">
+                            <div className="text-xs">
+                                {bookMarkJson.map((bookMark, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <a href={bookMark.href} target="_blank" className="flex">
+                                                <img src={bookMark.icon}></img>{bookMark.title}
+                                            </a>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div>
                     <p className="mb-2 mt-2 font-semibold">Description</p>
 
