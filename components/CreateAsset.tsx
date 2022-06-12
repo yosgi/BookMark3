@@ -4,6 +4,17 @@ import { useBookMarkParser } from "../hooks/useBookMarkParser";
 import "../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { useState } from "react";
+import { create } from 'ipfs-http-client'
+
+// connect to the default API address http://localhost:5001
+const client = create()
+
+
+
+// call Core API methods
+const { cid } =  client.add('Hello world!').then((res,error) => {
+    console.log(res,error)
+})
 
 var componentConfig = {
     iconFiletypes: [".html"],
@@ -32,13 +43,13 @@ export const CreateAsset: React.FC = () => {
             reader.onload = (fileLoadedEvent) => {
                 if (fileLoadedEvent.target && fileLoadedEvent.target.result) {
                     const text = fileLoadedEvent.target.result;
+                    
                     setBuffer(text);
                 }
             };
             reader.readAsText(file);
         },
     };
-    console.log(bookMarkJson);
     return (
         <div className=" bg-white min-h-fit  rounded-t-xl p-6 ">
             <div className="max-w-screen-xl m-auto">
@@ -50,7 +61,7 @@ export const CreateAsset: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex">
-                    <div className="w-80 h-44">
+                    <div className="w-1/2">
                         {/* upload bookMark */}
                         <DropzoneComponent
                             config={componentConfig}
@@ -58,15 +69,15 @@ export const CreateAsset: React.FC = () => {
                             djsConfig={djsConfig}
                         />
                     </div>
-                    <div>
+                    <div className="max-w-lg">
                         {/* show bookmark list */}
-                        <div className="ml-6">
+                        <div className="ml-10 mt-1 h-40 overflow-hidden">
                             <div className="text-xs">
                                 {bookMarkJson.map((bookMark, index) => {
                                     return (
-                                        <div key={index}>
+                                        <div className="mb-2" key={index}>
                                             <a href={bookMark.href} target="_blank" className="flex">
-                                                <img src={bookMark.icon}></img>{bookMark.title}
+                                                <img className="mr-1" src={bookMark.icon}></img>{bookMark.title}
                                             </a>
                                         </div>
                                     );
