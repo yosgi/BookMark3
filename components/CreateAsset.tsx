@@ -4,17 +4,15 @@ import { useBookMarkParser } from "../hooks/useBookMarkParser";
 import "../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { useState } from "react";
-import { create } from 'ipfs-http-client'
-
-// connect to the default API address http://localhost:5001
-const client = create()
+import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 
 
 
-// call Core API methods
-const { cid } =  client.add('Hello world!').then((res,error) => {
-    console.log(res,error)
-})
+let ipfs: IPFSHTTPClient | undefined;
+ipfs = create({
+    url: "https://ipfs.infura.io:5001/api/v0",
+
+  });
 
 var componentConfig = {
     iconFiletypes: [".html"],
@@ -38,8 +36,10 @@ export const CreateAsset: React.FC = () => {
         setInput(value);
     };
     const eventHandlers = {
-        addedfile: (file: Blob) => {
+        addedfile:async (file: Blob) => {
             const reader = new FileReader();
+            const result = await (ipfs as IPFSHTTPClient).add(file);
+            console.log(result)
             reader.onload = (fileLoadedEvent) => {
                 if (fileLoadedEvent.target && fileLoadedEvent.target.result) {
                     const text = fileLoadedEvent.target.result;
