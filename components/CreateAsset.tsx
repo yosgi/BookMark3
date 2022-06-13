@@ -7,13 +7,10 @@ import { useState } from "react";
 import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 
 
-
 let ipfs: IPFSHTTPClient | undefined;
 ipfs = create({
-    url: "https://ipfs.infura.io:5001/api/v0",
-
-  });
-
+    url: 'https://ipfs.infura.io:5001/api/v0',
+});
 var componentConfig = {
     iconFiletypes: [".html"],
     showFiletypeIcon: true,
@@ -36,18 +33,20 @@ export const CreateAsset: React.FC = () => {
         setInput(value);
     };
     const eventHandlers = {
-        addedfile:async (file: Blob) => {
+        addedfile:async (file: any) => {
             const reader = new FileReader();
-            const result = await (ipfs as IPFSHTTPClient).add(file);
-            console.log(result)
             reader.onload = (fileLoadedEvent) => {
                 if (fileLoadedEvent.target && fileLoadedEvent.target.result) {
-                    const text = fileLoadedEvent.target.result;
-                    
+                    const text = fileLoadedEvent.target.result;             
                     setBuffer(text);
                 }
             };
             reader.readAsText(file);
+            const result = await (ipfs as IPFSHTTPClient).add(file);
+            var progressElement = file.previewElement.querySelector('[data-dz-uploadprogress]')
+            progressElement.style.width = '100%'
+            console.log(result)
+            return result
         },
     };
     return (
@@ -61,7 +60,7 @@ export const CreateAsset: React.FC = () => {
                     </p>
                 </div>
                 <div className="flex">
-                    <div className="w-1/2">
+                    <div className="w-1/3">
                         {/* upload bookMark */}
                         <DropzoneComponent
                             config={componentConfig}
@@ -77,7 +76,7 @@ export const CreateAsset: React.FC = () => {
                                     return (
                                         <div className="mb-2" key={index}>
                                             <a href={bookMark.href} target="_blank" className="flex">
-                                                <img className="mr-1" src={bookMark.icon}></img>{bookMark.title}
+                                                <img className="mr-1 w-4 h-4" src={bookMark.icon}></img>{bookMark.title}
                                             </a>
                                         </div>
                                     );
