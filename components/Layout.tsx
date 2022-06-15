@@ -7,7 +7,21 @@ import Web3 from 'web3'
 import {AccoutBar} from '../components/AccountHeader'
 import {CreateAsset} from '../components/CreateAsset'
 import Link from 'next/link'
+import Decentragram from '../abis/Decentragram.json'
+
 export default function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const fetchData = async () => {
+      const networkId = await window.web3.eth.net.getId()
+      const networkData = Decentragram.networks[networkId]
+      console.log(networkId)
+      if(networkData) {
+        const decentragram = new window.web3.eth.Contract(Decentragram.abi, networkData.address)
+      }
+    }
+    fetchData()
+      .catch(console.error);
+  }, [])
   return (
     <>
      <Head>

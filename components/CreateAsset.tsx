@@ -5,7 +5,7 @@ import "../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { useState } from "react";
 import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
-
+import Decentragram from '../abis/Decentragram.json'
 
 let ipfs: IPFSHTTPClient | undefined;
 ipfs = create({
@@ -21,6 +21,7 @@ var djsConfig = { autoProcessQueue: false };
 export const CreateAsset: React.FC = () => {
     const [userInput, setInput] = useState("");
     const { bookMarkJson, setBuffer } = useBookMarkParser("");
+    const [ipfsHash, setIpfsHash] = useState("");
     // set userInput text
     const handleInputChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
@@ -43,12 +44,15 @@ export const CreateAsset: React.FC = () => {
             };
             reader.readAsText(file);
             const result = await (ipfs as IPFSHTTPClient).add(file);
+            console.log(result)
+            setIpfsHash(result[0].hash);
             var progressElement = file.previewElement.querySelector('[data-dz-uploadprogress]')
             progressElement.style.width = '100%'
-            console.log(result)
-            return result
         },
     };
+    const uploadBookMark = async () => {
+        
+    }
     return (
         <div className=" bg-white min-h-fit  rounded-t-xl p-6 ">
             <div className="max-w-screen-xl m-auto">
