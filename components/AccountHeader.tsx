@@ -1,18 +1,11 @@
-import React from 'react';
+import React,{useContext} from 'react';
+import {UserContext} from '../components/Layout';
 import { useConnectWallet } from "../hooks/useConnectWallet";
-import { useAccount } from "../hooks/useAccount";
 import Link from 'next/link'
 
 export const AccoutBar:React.FC = () => {
     const { connected, connect } = useConnectWallet();
-    const { account } = useAccount(connected);
-    const balance = React.useMemo(() => {
-        if (!account || !account.balance) {
-          return null;
-        }
-        return window.web3.utils.fromWei(account.balance, "Ether").slice(0, 6);
-      }, [account]);
-    console.log(account)
+    const  account  = useContext(UserContext);
     
     return (
         <div className='px-12 w-screen h-28 flex items-center justify-between  '>
