@@ -2,8 +2,6 @@ import Layout from "../components/Layout";
 import {ContractContext} from '../components/Layout';
 import {useContext,useEffect,useState} from 'react';
 const Posters: React.FC = () => {
-  console.log('ContractContext')
-  console.log(ContractContext)
   const contract = useContext(ContractContext);
   const [assets,setAssets] = useState<any[]>([]);
   useEffect(() => { 

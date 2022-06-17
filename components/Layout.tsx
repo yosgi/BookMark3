@@ -10,13 +10,13 @@ interface IAccount {
   address: string;
   balance: string;
 };
+// transport UserAccount Info and Contract Info to Layout.tsx and children components.
 export const ContractContext = React.createContext<any>(null);
 export const UserContext = React.createContext<IAccount | null>(null);
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [decentragram, setDecentragram] = React.useState<any>(null);
   const { connected, connect } = useConnectWallet();
   const { account } = useAccount(connected);
-  console.log(account, connected)
   React.useMemo(() => {
     if (!account || !account.balance) {
       return null;
@@ -29,11 +29,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       const networkData = Decentragram.networks[3]
       if (networkData) {
         const decentragram = new window.web3.eth.Contract(Decentragram.abi, networkData.address)
+        console.log(decentragram)
         setDecentragram(decentragram)
       }
     }
+    
     fetchData()
-      .catch(console.error);
+    .catch(console.error);
   }, [])
   return (
     <>

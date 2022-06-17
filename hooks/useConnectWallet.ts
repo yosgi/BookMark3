@@ -12,6 +12,8 @@ export const useConnectWallet = (): UseConnectWallet => {
   const checkAccountConnected = (accounts: string[]) => {
     if (!accounts.length) {
       setConnected(false);
+    } else {
+      setConnected(true);
     }
   };
 

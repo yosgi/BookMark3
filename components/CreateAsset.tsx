@@ -35,8 +35,8 @@ export const CreateAsset: React.FC = () => {
         }
         setInput(value);
     };
-    const uploadBookMark = async (hash: string) => {
-        contract.methods.uploadImage(hash, 'description test').send({ from: user?.address }).on('transactionHash', (hash: string) => {
+    const uploadBookMark = async () => {
+        contract.methods.uploadImage(ipfsHash, userInput).send({ from: user?.address }).on('transactionHash', (hash: string) => {
             console.log(hash)
         })
     }
@@ -52,8 +52,7 @@ export const CreateAsset: React.FC = () => {
             reader.readAsText(file);
             const result = await (ipfs as IPFSHTTPClient).add(file);
             console.log(result)
-            // setIpfsHash(result.path);
-            uploadBookMark(result.path)
+            setIpfsHash(result.path);
             var progressElement = file.previewElement.querySelector('[data-dz-uploadprogress]')
             progressElement.style.width = '100%'
         },
@@ -115,7 +114,7 @@ export const CreateAsset: React.FC = () => {
                         </ReactMarkdown>
                     </div>
                 </div>
-                <div className="h-12 w-32 rounded-lg mt-12  mb-12 border-zinc-200 flex justify-center items-center text-white bg-blue-100 ">
+                <div onClick={uploadBookMark} className="h-12 w-32 rounded-lg mt-12  mb-12 border-zinc-200 flex justify-center items-center text-white bg-blue-100 ">
                     Create
                 </div>
             </div>
