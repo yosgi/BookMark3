@@ -1,9 +1,7 @@
 import React from "react";
+import { ethers } from "ethers";
+import '../types/additional.d.ts'
 
-export interface Account {
-  address: string;
-  balance: string;
-}
 
 export interface UseAccount {
   account: Account | null;
@@ -14,15 +12,19 @@ export const useAccount = (
   connected: boolean,
   refreshInterval = 5000
 ): UseAccount => {
+ 
   const [account, setAccount] = React.useState<Account | null>(null);
-
+  
   const getAddress = async () => {
-    const accounts = await window.web3.eth.getAccounts();
-    return accounts[0];
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    const signer = provider.getSigner();
+    const accounts = await signer.getAddress();
+    return accounts;
   };
 
   const getAccounBalance = async (address: string) => {
-    return await window.web3.eth.getBalance(address);
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    return await provider.getBalance(address);
   };
 
   const checkAccount = React.useCallback(async () => {

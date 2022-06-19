@@ -1,11 +1,11 @@
-const Decentragram = artifacts.require('Decentragram')
+const BookMark = artifacts.require('BookMark')
 
 
-contract('Decentragram', ([deployer, author, tipper]) => {
+contract('BookMark', ([deployer, author, tipper]) => {
     it('deploys successfully', async () => {
       // deploy the contract
-      let decentragram = await Decentragram.new()
-      const address = await decentragram.address
+      let BookMark = await BookMark.new()
+      const address = await BookMark.address
       assert.notEqual(address, 0x0)
       assert.notEqual(address, '')
       assert.notEqual(address, null)
@@ -13,9 +13,9 @@ contract('Decentragram', ([deployer, author, tipper]) => {
     })
 
     it('has a name', async () => {
-      let decentragram = await Decentragram.new()
-      const name = await decentragram.name()
-      assert.equal(name, 'Decentragram')
+      let BookMark = await BookMark.new()
+      const name = await BookMark.name()
+      assert.equal(name, 'BookMark')
     })
   
 
@@ -24,8 +24,8 @@ contract('Decentragram', ([deployer, author, tipper]) => {
     const hash = 'QmV8cfu6n4NT5xRr2AHdKxFMTZEJrA44qgrBCr739BN9Wb'
 
     before(async () => {
-      result = await decentragram.uploadImage(hash, 'Image description', { from: author })
-      imageCount = await decentragram.imageCount()
+      result = await BookMark.uploadPost(hash, 'Image description', { from: author })
+      imageCount = await BookMark.imageCount()
     })
 
     //check event
@@ -41,15 +41,15 @@ contract('Decentragram', ([deployer, author, tipper]) => {
 
 
       // FAILURE: Image must have hash
-      await decentragram.uploadImage('', 'Image description', { from: author }).should.be.rejected;
+      await BookMark.uploadImage('', 'Image description', { from: author }).should.be.rejected;
 
       // FAILURE: Image must have description
-      await decentragram.uploadImage('Image hash', '', { from: author }).should.be.rejected;
+      await BookMark.uploadImage('Image hash', '', { from: author }).should.be.rejected;
     })
 
     //check from Struct
     it('lists images', async () => {
-      const image = await decentragram.images(imageCount)
+      const image = await BookMark.images(imageCount)
       assert.equal(image.id.toNumber(), imageCount.toNumber(), 'id is correct')
       assert.equal(image.hash, hash, 'Hash is correct')
       assert.equal(image.description, 'Image description', 'description is correct')
@@ -63,7 +63,7 @@ contract('Decentragram', ([deployer, author, tipper]) => {
       oldAuthorBalance = await web3.eth.getBalance(author)
       oldAuthorBalance = new web3.utils.BN(oldAuthorBalance)
 
-      result = await decentragram.tipImageOwner(imageCount, { from: tipper, value: web3.utils.toWei('1', 'Ether') })
+      result = await BookMark.tipImageOwner(imageCount, { from: tipper, value: web3.utils.toWei('1', 'Ether') })
 
       // SUCCESS
       const event = result.logs[0].args
@@ -87,7 +87,7 @@ contract('Decentragram', ([deployer, author, tipper]) => {
       assert.equal(newAuthorBalance.toString(), expectedBalance.toString())
 
       // FAILURE: Tries to tip a image that does not exist
-      await decentragram.tipImageOwner(99, { from: tipper, value: web3.utils.toWei('1', 'Ether')}).should.be.rejected;
+      await BookMark.tipImageOwner(99, { from: tipper, value: web3.utils.toWei('1', 'Ether')}).should.be.rejected;
     })
   })
 })

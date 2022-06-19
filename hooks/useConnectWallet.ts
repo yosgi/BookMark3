@@ -1,5 +1,5 @@
 import React from "react";
-import Web3 from "web3";
+import { ethers } from "ethers";
 import '../types/additional.d.ts'
 export interface UseConnectWallet {
   connected: boolean;
@@ -8,7 +8,7 @@ export interface UseConnectWallet {
 
 export const useConnectWallet = (): UseConnectWallet => {
   const [connected, setConnected] = React.useState<boolean>(false);
-
+ 
   const checkAccountConnected = (accounts: string[]) => {
     if (!accounts.length) {
       setConnected(false);
@@ -22,7 +22,8 @@ export const useConnectWallet = (): UseConnectWallet => {
       setConnected(true);
 
       if (window.ethereum) {
-        window.ethereum.on("accountsChanged", checkAccountConnected);
+        window.ethereum.on('chainChanged',checkAccountConnected)
+        window.ethereum.on('accountsChanged',checkAccountConnected)
       }
     };
 
@@ -30,21 +31,17 @@ export const useConnectWallet = (): UseConnectWallet => {
       setConnected(false);
     };
 
-
-
     try {
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
-      } else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
-      } else {
-        throw new Error("Browser does not support Ethereum");
-      }
-      handleConnect();
-    } catch (e) {
-      handleError();
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      // Prompt user for account connections
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      console.log("Account:", await signer.getAddress());
+      handleConnect()
+    } catch (error) {
+      handleError()
     }
+  
   }, []);
   React.useEffect(() => {
     connect();
@@ -52,6 +49,7 @@ export const useConnectWallet = (): UseConnectWallet => {
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", checkAccountConnected);
+        window.ethereum.removeListener("chainChanged", checkAccountConnected);
       }
     };
   }, [connect]);

@@ -5,7 +5,7 @@ import "../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 import { useContext, useEffect, useState } from 'react';
-import { ContractContext, UserContext } from '../components/Layout';
+import { ContractContext, UserContext } from '../pages/_app';
 
 let ipfs: IPFSHTTPClient | undefined;
 ipfs = create({
@@ -25,6 +25,7 @@ export const CreateAsset: React.FC = () => {
     const contract = useContext(ContractContext);
     const user = useContext(UserContext);
     // set userInput text
+    console.log('contract',contract)
     const handleInputChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
     ): void => {
@@ -35,11 +36,11 @@ export const CreateAsset: React.FC = () => {
         }
         setInput(value);
     };
+     // upload post to blockchain
     const uploadBookMark = async () => {
-        contract.methods.uploadImage(ipfsHash, userInput).send({ from: user?.address }).on('transactionHash', (hash: string) => {
-            console.log(hash)
-        })
+        contract.uploadPost(ipfsHash, userInput)
     }
+     // Upload post to IPFS
     const eventHandlers = {
         addedfile: async (file: any) => {
             const reader = new FileReader();
@@ -50,6 +51,7 @@ export const CreateAsset: React.FC = () => {
                 }
             };
             reader.readAsText(file);
+            
             const result = await (ipfs as IPFSHTTPClient).add(file);
             console.log(result)
             setIpfsHash(result.path);

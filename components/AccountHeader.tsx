@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import {UserContext} from '../components/Layout';
+import {UserContext} from '../pages/_app';
 import { useConnectWallet } from "../hooks/useConnectWallet";
 import Link from 'next/link'
 

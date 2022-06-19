@@ -6,7 +6,6 @@ const Home: NextPage = () => {
   return (
     <div className="overflow-x-hidden">
       <Layout>
-       
         <CreateAsset></CreateAsset>
       </Layout>
     </div>

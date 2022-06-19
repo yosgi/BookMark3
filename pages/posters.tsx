@@ -1,19 +1,23 @@
+import type { NextPage } from 'next'
 import Layout from "../components/Layout";
-import {ContractContext} from '../components/Layout';
+import {ContractContext} from '../pages/_app';
 import {useContext,useEffect,useState} from 'react';
-const Posters: React.FC = () => {
+const Posters: NextPage = () => {
+
   const contract = useContext(ContractContext);
+  
   const [assets,setAssets] = useState<any[]>([]);
   useEffect(() => { 
     const getImageList = async () => {
-      const imagesCount = await contract.methods.imageCount().call()
-      for(let i = 0; i < imagesCount; i++) {
-        const image =  await contract.methods.images(i).call()
-        setAssets(assets => [...assets,image])
-      }
+      console.log('post contract',await contract.name()  )
+      const posts = await contract.getAllPosts()
+      console.log('posts',posts)
     }
-    getImageList()
-   }, [])
+    if (contract) {
+      getImageList()
+    }
+    
+   }, [contract])
   return (
   <Layout>
     {assets.map((asset:any) => {
