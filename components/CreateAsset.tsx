@@ -6,17 +6,18 @@ import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 import { useContext, useEffect, useState } from 'react';
 import { ContractContext, UserContext } from '../pages/_app';
-const projectId = process.env.INFURA_API_KEY;
-const projectSecret = process.env.INFURA_API_SECRET;
+const projectId = process.env.NEXT_PUBLIC_INFURA_API_KEY;
+const projectSecret = process.env.NEXT_PUBLIC_INFURA_API_SECRET;
 const authorization =
   'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
 let ipfs: IPFSHTTPClient | undefined;
 ipfs = create({
-    url: process.env.INFURA_API_URL,
+    url: process.env.NEXT_PUBLIC_INFURA_API_URL,
     headers: {
         authorization,
       },
 });
+console.log('projectId',projectId)
 var componentConfig = {
     iconFiletypes: [".html"],
     showFiletypeIcon: true,
