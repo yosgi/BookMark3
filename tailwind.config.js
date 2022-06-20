@@ -2,7 +2,11 @@ module.exports = {
   content: [ "./pages/**/*.{js,ts,jsx,tsx}",
   "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    maxHeight: {
+      'default': '700px',
+    },
+    extend: {
+    }
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
