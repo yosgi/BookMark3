@@ -8,5 +8,10 @@ module.exports = {
     extend: {
     }
   },
+  safelist: [
+    {
+      pattern: /./
+    },
+  ],
   plugins: [require("daisyui")],
 }

@@ -6,6 +6,7 @@ import "../node_modules/dropzone/dist/min/dropzone.min.css";
 import { create, CID, IPFSHTTPClient } from 'ipfs-http-client'
 import { useContext, useEffect, useState } from 'react';
 import { ContractContext, UserContext } from '../pages/_app';
+import {  Button,Modal,Link } from 'react-daisyui'
 const projectId = process.env.NEXT_PUBLIC_INFURA_API_KEY;
 const projectSecret = process.env.NEXT_PUBLIC_INFURA_API_SECRET;
 const authorization ='Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
@@ -16,7 +17,6 @@ ipfs = create({
         authorization,
     },
 });
-console.log('projectId',projectId)
 var componentConfig = {
     iconFiletypes: [".html"],
     showFiletypeIcon: true,
@@ -35,6 +35,10 @@ export const CreateAsset: React.FC = () => {
     5. Next, click Export Bookmarks. 
     6. Finally, choose a name and destination and click Save.`);
     const { bookMarkJson, setBuffer } = useBookMarkParser("");
+    const [visible, setVisible] = useState<boolean>(false)
+    const toggleVisible = () => {
+        setVisible(!visible)
+    }
     const [ipfsHash, setIpfsHash] = useState("");
     const contract = useContext(ContractContext);
     const user = useContext(UserContext);
@@ -51,7 +55,9 @@ export const CreateAsset: React.FC = () => {
     };
      // upload post to blockchain
     const uploadBookMark = async () => {
-        contract.uploadPost(ipfsHash, userInput)
+        const preview = bookMarkJson.slice(0,5)
+        await contract.uploadPost(ipfsHash, userInput,JSON.stringify(preview))
+        toggleVisible()
     }
      // Upload post to IPFS
     const eventHandlers = {
@@ -74,6 +80,22 @@ export const CreateAsset: React.FC = () => {
     
     return (
         <div className=" bg-white max-h-default overflow-y-auto absolute bottom-0 w-full  rounded-t-xl p-6 ">
+            <Modal  open={visible} onClickBackdrop={toggleVisible}>
+                <Modal.Header>Congraduation</Modal.Header>
+
+                <Modal.Body>
+                    Your bookmark has been shared successfully ！
+                </Modal.Body>
+
+                <Modal.Actions>
+                    <Link href="/posters">
+                        <Button onClick={toggleVisible} size="sm" color="primary">
+                            see more
+                        </Button>
+                    </Link>
+                    <Button onClick={toggleVisible} size="sm">Cancel</Button>
+                </Modal.Actions>
+            </Modal>
             <div className="max-w-screen-xl m-auto">
                 <div className="text-4xl font-bold pt-6 pb-6">Post New BookMark</div>
                 <div>
@@ -126,7 +148,6 @@ export const CreateAsset: React.FC = () => {
                                 className="textarea mt-2   outline-0 rounded-lg lp-4 resize-y border-2 border-slate-100"
                             ></textarea>
                             <label className="label">
-                              
                                 <span className="label-text-alt font-semibold text-xs text-slate-400">{userInput.length} / 500</span>
                             </label> 
                         </div>
@@ -139,6 +160,7 @@ export const CreateAsset: React.FC = () => {
                 <button  onClick={uploadBookMark} className={`${ipfsHash.length > 0 && userInput.length > 0 ? '':'btn-disabled'} btn h-12 w-32 rounded-lg mt-12  mb-12 border-zinc-200 flex justify-center items-center`}>
                     Create
                 </button>
+             
             </div>
         </div>
     );

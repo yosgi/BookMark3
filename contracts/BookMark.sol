@@ -10,6 +10,7 @@ contract BookMark {
     uint id;
     string hash;
     string description;
+    string preview;
     uint tipAmount;
     address payable author;
   }
@@ -18,6 +19,7 @@ contract BookMark {
     uint id,
     string hash,
     string description,
+    string preview,
     uint tipAmount,
     address payable author
   );
@@ -26,6 +28,7 @@ contract BookMark {
     uint id,
     string hash,
     string description,
+    string preview,
     uint tipAmount,
     address payable author
   );
@@ -33,11 +36,13 @@ contract BookMark {
   constructor()  {
     name = "BookMark";
   }
-  function uploadPost(string memory _bookMarkHash, string memory _description) public {
+  function uploadPost(string memory _bookMarkHash, string memory _description, string memory _preview) public {
     // Make sure the bookMark hash exists
     require(bytes(_bookMarkHash).length > 0, "Image hash cannot be empty");
     // Make sure bookMark description exists
     require(bytes(_description).length > 0, "cannot be empty");
+    // Make sure bookMark preview exists
+    require(bytes(_preview).length > 0, "cannot be empty");
     // Make sure uploader address exists
     require(msg.sender!=address(0), "Uploader address cannot be empty");
 
@@ -45,9 +50,9 @@ contract BookMark {
     postCount ++;
 
     // Add bookMark to the contract
-    posts[postCount] = Post(postCount, _bookMarkHash, _description, 0, payable(msg.sender));
+    posts[postCount] = Post(postCount, _bookMarkHash, _description,_preview, 0, payable(msg.sender));
     // Trigger an event
-    emit PostCreated(postCount, _bookMarkHash, _description, 0, payable(msg.sender));
+    emit PostCreated(postCount, _bookMarkHash, _description,_preview, 0, payable(msg.sender));
   }
 
   function tipImageOwner(uint _id) external payable {
@@ -64,7 +69,7 @@ contract BookMark {
     // Update the image
     posts[_id] = _post;
     // Trigger an event
-    emit PostTipped(_id, _post.hash, _post.description, _post.tipAmount, _author);
+    emit PostTipped(_id, _post.hash, _post.description,_post.preview, _post.tipAmount, _author);
   }
    // Fetches all the posts
     function getAllPosts() external view returns (Post[] memory _posts) {
