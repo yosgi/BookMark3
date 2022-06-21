@@ -79,7 +79,7 @@ export const CreateAsset: React.FC = () => {
     };
     
     return (
-        <div className=" bg-white max-h-default overflow-y-auto absolute bottom-0 w-full  rounded-t-xl p-6 ">
+        <div className=" bg-white min-h-default  overflow-y-auto  w-full   rounded-t-xl p-6 ">
             <Modal  open={visible} onClickBackdrop={toggleVisible}>
                 <Modal.Header>Congraduation</Modal.Header>
 

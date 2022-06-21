@@ -2,8 +2,8 @@ module.exports = {
   content: [ "./pages/**/*.{js,ts,jsx,tsx}",
   "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    maxHeight: {
-      'default': '700px',
+    minHeight: {
+      'default': 'calc(100vh - 112px)',
     },
     extend: {
     }

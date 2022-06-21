@@ -3,11 +3,13 @@ import { ethers } from "ethers";
 import '../types/additional.d.ts'
 export interface UseConnectWallet {
   connected: boolean;
+  chainConnected:boolean;
   connect: () => void;
 }
 
 export const useConnectWallet = (): UseConnectWallet => {
   const [connected, setConnected] = React.useState<boolean>(false);
+  const [chainConnected,setChainConnected] = React.useState<boolean>(false);
  
   const checkAccountConnected = (accounts: string[]) => {
     if (!accounts.length) {
@@ -16,13 +18,23 @@ export const useConnectWallet = (): UseConnectWallet => {
       setConnected(true);
     }
   };
+  const checkChainConnected = (chainId: string) => {
+    if (chainId === process.env.NEXT_PUBLIC_CHAINID) {
+      setChainConnected(true);
+    } else {
+      setChainConnected(false);
+    }
+  }
 
   const connect = React.useCallback(async () => {
-    const handleConnect = () => {
+    const handleConnect = async() => {
       setConnected(true);
-
+      const  currentChainId = await window.ethereum.request({
+        method: 'eth_chainId',
+      });
+      setChainConnected(currentChainId === process.env.NEXT_PUBLIC_CHAINID);
       if (window.ethereum) {
-        window.ethereum.on('chainChanged',checkAccountConnected)
+        window.ethereum.on('chainChanged',checkChainConnected)
         window.ethereum.on('accountsChanged',checkAccountConnected)
       }
     };
@@ -36,6 +48,7 @@ export const useConnectWallet = (): UseConnectWallet => {
       // Prompt user for account connections
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
+    
       console.log("Account:", await signer.getAddress());
       handleConnect()
     } catch (error) {
@@ -49,11 +62,11 @@ export const useConnectWallet = (): UseConnectWallet => {
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", checkAccountConnected);
-        window.ethereum.removeListener("chainChanged", checkAccountConnected);
+        window.ethereum.removeListener("chainChanged", checkChainConnected);
       }
     };
   }, [connect]);
 
 
-  return { connected, connect };
+  return { connected, connect,chainConnected };
 };

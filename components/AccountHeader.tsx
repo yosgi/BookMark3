@@ -8,9 +8,9 @@ export const AccoutBar:React.FC = () => {
     const  account  = useContext(UserContext);
     
     return (
-        <div className='px-12 w-screen h-28 flex items-center justify-between  '>
-            <Link className='cursor-pointer' href="/">
-                <div className='text-white font-bold text-2xl'>BookMark3</div>
+        <div className='px-12 sticky top-0 w-screen h-28 flex items-center justify-between  '>
+            <Link  href="/">
+                <div className='text-white font-bold text-2xl cursor-pointer'>BookMark3</div>
             </Link>
            
             {

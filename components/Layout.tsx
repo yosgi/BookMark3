@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { useEffect } from 'react'
@@ -27,7 +26,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
      
           <AccoutBar></AccoutBar>
           {children}
-   
     </>
   )
 }
