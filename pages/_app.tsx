@@ -5,6 +5,7 @@ import contract from '../contractsData/bookmark.json'
 import contractAdress from '../contractsData/bookmark-address.json'
 import { useConnectWallet } from "../hooks/useConnectWallet";
 import { useAccount } from "../hooks/useAccount";
+import { AnimatePresence } from "framer-motion"
 import { ethers } from "ethers";
 interface Account {
   address: string;
@@ -39,11 +40,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     .catch(console.error);
   }, [])
   return (
+    <AnimatePresence>
     <UserContext.Provider value={account}>
-    <ContractContext.Provider value={BookMark}>
-      <Component {...pageProps} />
-    </ContractContext.Provider>
+      <ContractContext.Provider value={BookMark}>
+      
+          <Component {...pageProps} />
+      
+      </ContractContext.Provider>
+      
       </UserContext.Provider>
+      </AnimatePresence>
   )
 }
 

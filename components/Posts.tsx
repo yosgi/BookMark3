@@ -1,43 +1,39 @@
-import type { NextPage } from 'next'
-import Layout from "../components/Layout";
 import { ContractContext } from '../pages/_app';
 import { useContext, useEffect, useState } from 'react';
 import ReactMarkdown from "react-markdown";
 import Avatar from "boring-avatars";
 import { FaDownload,FaGratipay } from "react-icons/fa";
 import { AiOutlineExperiment } from "react-icons/ai";
-const Posters: NextPage = () => {
 
-  const contract = useContext(ContractContext);
-  const [assets, setAssets] = useState<any[]>([]);
-  // download bookmark
-  const downloadBookmark = async (url: string) => {
-    const res = await fetch(url);
-    const blob = await res.blob();
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "bookmark.html";
-
-    a.click();
-    
-  }
-  useEffect(() => {
-    const getPostList = async () => {
-      console.log('post contract', await contract.name())
-      const posts = await contract.getAllPosts()
-      setAssets(posts)
-      console.log('posts', posts)
+export const Posts: React.FC = () => {
+    const contract = useContext(ContractContext);
+    const [assets, setAssets] = useState<any[]>([]);
+    // download bookmark
+    const downloadBookmark = async (url: string) => {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "bookmark.html";
+  
+      a.click();
+      
     }
-    if (contract) {
-      getPostList()
-    }
-
-  }, [contract])
-  return (
-    <Layout>
-      <div className='rounded-t-xl grid grid-cols-12 lg:gap-8 absolute bottom-0 w-full bg-slate-100'>
+    useEffect(() => {
+      const getPostList = async () => {
+        console.log('post contract', await contract.name())
+        const posts = await contract.getAllPosts()
+        setAssets(posts)
+        console.log('posts', posts)
+      }
+      if (contract) {
+        getPostList()
+      }
+    }, [contract])
+    return (
+        <div className='rounded-t-xl grid grid-cols-12 lg:gap-8 absolute bottom-0 w-full bg-slate-100'>
         <div className="lg:col-span-8 md:col-span-12 col-span-12 mb-5 space-y-5  max-h-default overflow-y-auto  rounded-t-xl p-6 ">
- 
+
             <div className='rounded-none sm:rounded-xl border dark:border-gray-700/80 bg-white dark:bg-gray-900 divide-y-[1px] dark:divide-gray-700/80'>
               {assets.map((asset: any) => {
                 return (
@@ -73,7 +69,6 @@ const Posters: NextPage = () => {
                 )
               })}
             </div>
-       
         </div>
         <div className='p-6 lg:col-span-4 md:col-span-12 col-span-12 '>
             <div className='p-5 rounded-none sm:rounded-xl border dark:border-gray-700/80 bg-white dark:bg-gray-900 mb-4 bg-yellow-50 dark:bg-yellow-900 !border-yellow-600'>
@@ -90,7 +85,5 @@ const Posters: NextPage = () => {
             </div>
         </div>
       </div>
-
-    </Layout>);
+    )
 };
-export default Posters;

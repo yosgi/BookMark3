@@ -88,7 +88,7 @@ export const CreateAsset: React.FC = () => {
                 </Modal.Body>
 
                 <Modal.Actions>
-                    <Link href="/posters">
+                    <Link href="/">
                         <Button onClick={toggleVisible} size="sm" color="primary">
                             see more
                         </Button>

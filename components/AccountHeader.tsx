@@ -9,16 +9,16 @@ export const AccoutBar:React.FC = () => {
     
     return (
         <div className='px-12 w-screen h-28 flex items-center justify-between  '>
-            <Link href="/posters">
+            <Link className='cursor-pointer' href="/">
                 <div className='text-white font-bold text-2xl'>BookMark3</div>
             </Link>
            
             {
                 account  ? 
-                <Link href="/">
+                <Link className='cursor-pointer' href="/upload">
                 <div className='text-white text-xs   bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>{account.address.slice(0, 6)+ '...'}</div>
                 </Link>:
-                <div onClick={connect} className='text-white text-xs cursor-pointer  bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>Connect Wallect</div>
+                <div onClick={connect} className='cursor-pointer text-white text-xs cursor-pointer  bg-white/10 rounded-full w-32 h-10 flex items-center justify-center'>Connect Wallect</div>
             }
            
         </div>

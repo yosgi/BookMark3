@@ -16,6 +16,7 @@
     "boring-avatars": "^1.7.0",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^16.0.1",
+    "framer-motion": "^6.3.11",
     "hardhat-gas-reporter": "^1.0.8",
     "ipfs-http-client": "^57.0.1",
     "next": "12.1.6",

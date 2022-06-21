@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
-import {CreateAsset} from '../components/CreateAsset'
-import Layout from '../components/Layout'
 
+import Layout from '../components/Layout'
+import Transitions from '../components/Transitions'
+import {Posts} from "../components/Posts"
 const Home: NextPage = () => {
   return (
-    <div className="overflow-x-hidden">
       <Layout>
-        <CreateAsset></CreateAsset>
+        <Transitions>
+          <Posts></Posts>
+        </Transitions>
       </Layout>
-    </div>
   )
 }
 
