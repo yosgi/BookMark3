@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import ReactMarkdown from "react-markdown";
 import Avatar from "boring-avatars";
 import { FaDownload,FaGratipay } from "react-icons/fa";
+import { AiOutlineExperiment } from "react-icons/ai";
 const Posters: NextPage = () => {
 
   const contract = useContext(ContractContext);
@@ -78,10 +79,14 @@ const Posters: NextPage = () => {
             <div className='p-5 rounded-none sm:rounded-xl border dark:border-gray-700/80 bg-white dark:bg-gray-900 mb-4 bg-yellow-50 dark:bg-yellow-900 !border-yellow-600'>
               <div className=' space-y-2.5 text-yellow-600'>
                   <div className='flex items-center space-x-2 font-bold'>
-                    <p>Beta warning!</p>
+                  <AiOutlineExperiment></AiOutlineExperiment>
+                    <p>Beta warning</p>
                   </div>
               </div>
               <p className="text-yellow-600 text-sm leading-[22px]">BookMark3 is still in the beta phase.</p>
+              <p className="text-yellow-600 text-sm leading-[22px]">If you need any help,</p>
+              
+              <p className="text-yellow-600 text-sm leading-[22px]">Please contact me at <a className='link' href="mailto:18667911647yosgi@gmail.com">18667911647yosgi@gmail.com</a></p>
             </div>
         </div>
       </div>

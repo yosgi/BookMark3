@@ -8,14 +8,13 @@ import { useContext, useEffect, useState } from 'react';
 import { ContractContext, UserContext } from '../pages/_app';
 const projectId = process.env.NEXT_PUBLIC_INFURA_API_KEY;
 const projectSecret = process.env.NEXT_PUBLIC_INFURA_API_SECRET;
-const authorization =
-  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
+const authorization ='Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64')
 let ipfs: IPFSHTTPClient | undefined;
 ipfs = create({
     url: process.env.NEXT_PUBLIC_INFURA_API_URL,
     headers: {
         authorization,
-      },
+    },
 });
 console.log('projectId',projectId)
 var componentConfig = {
@@ -40,7 +39,6 @@ export const CreateAsset: React.FC = () => {
     const contract = useContext(ContractContext);
     const user = useContext(UserContext);
     // set userInput text
-    console.log('contract',contract)
     const handleInputChange = (
         event: React.ChangeEvent<HTMLTextAreaElement>
     ): void => {
@@ -66,13 +64,14 @@ export const CreateAsset: React.FC = () => {
                 }
             };
             reader.readAsText(file);       
+
             const result = await (ipfs as IPFSHTTPClient).add(file);
             setIpfsHash(result.path);
             var progressElement = file.previewElement.querySelector('[data-dz-uploadprogress]')
             progressElement.style.width = '100%'
         },
     };
-
+    
     return (
         <div className=" bg-white max-h-default overflow-y-auto absolute bottom-0 w-full  rounded-t-xl p-6 ">
             <div className="max-w-screen-xl m-auto">
