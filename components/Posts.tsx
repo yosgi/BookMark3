@@ -145,7 +145,7 @@ export const Posts: React.FC = () => {
           <p className="text-yellow-600 text-sm leading-[22px]">BookMark3 is still in the beta phase.</p>
           {
             chainConnected ? 
-            '':<p className="text-yellow-600 text-sm leading-[22px]">Please connext to <span className='font-bold'>Rinkeby</span>  network.</p>
+            '':<p className="text-yellow-600 text-sm leading-[22px]">Please connect to <span className='font-bold'>Rinkeby</span>  network.</p>
           }
           
           <p className="text-yellow-600 text-sm leading-[22px]">If you need any help,</p>

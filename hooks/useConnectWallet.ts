@@ -19,6 +19,8 @@ export const useConnectWallet = (): UseConnectWallet => {
     }
   };
   const checkChainConnected = (chainId: string) => {
+    console.log('chainId',chainId)
+    console.log('targetChainId',process.env.NEXT_PUBLIC_CHAINID)
     if (chainId === process.env.NEXT_PUBLIC_CHAINID) {
       setChainConnected(true);
     } else {
