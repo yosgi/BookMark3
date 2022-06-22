@@ -12,6 +12,7 @@ contract BookMark {
     string description;
     string preview;
     uint tipAmount;
+    uint downloadAmount;
     address payable author;
   }
 
@@ -21,6 +22,7 @@ contract BookMark {
     string description,
     string preview,
     uint tipAmount,
+    uint downloadAmount,
     address payable author
   );
 
@@ -30,6 +32,16 @@ contract BookMark {
     string description,
     string preview,
     uint tipAmount,
+    uint downloadAmount,
+    address payable author
+  );
+  event PostDownloaded(
+    uint id,
+    string hash,
+    string description,
+    string preview,
+    uint tipAmount,
+    uint downloadAmount,
     address payable author
   );
 
@@ -50,14 +62,31 @@ contract BookMark {
     postCount ++;
 
     // Add bookMark to the contract
-    posts[postCount] = Post(postCount, _bookMarkHash, _description,_preview, 0, payable(msg.sender));
+    posts[postCount] = Post(postCount, _bookMarkHash, _description,_preview, 0, 0,payable(msg.sender));
     // Trigger an event
-    emit PostCreated(postCount, _bookMarkHash, _description,_preview, 0, payable(msg.sender));
+    emit PostCreated(postCount, _bookMarkHash, _description,_preview, 0, 0, payable(msg.sender));
   }
-
-  function tipImageOwner(uint _id) external payable {
+  function updateDownLoadAmount(uint _id) public {
+    // Make sure bookMark id exists
+    require(_id > 0, "BookMark id cannot be empty");  // Make sure bookMark id exists
+    // Make sure uploader address exists
+    require(msg.sender!=address(0), "Uploader address cannot be empty");
+    // Make sure uploader can download freely
+    require(posts[_id].author != msg.sender, "You are the author of this bookMark");
+    // uploadeAccount Increment
+    Post memory _post = posts[_id];
+    
+    _post.downloadAmount = _post.downloadAmount + 1;
+    // Update the post
+    posts[_id] = _post;
+    // Trigger an event
+    emit PostDownloaded(_id, posts[_id].hash, posts[_id].description, posts[_id].preview, posts[_id].tipAmount, posts[_id].downloadAmount, payable(msg.sender));
+  }
+  function tipPostOwner(uint _id) external payable {
     // Make sure the id is valid
     require(_id > 0 && _id <= postCount, "POST id is invalid");
+    // require the post owner is not the same as the sender
+    require(msg.sender != posts[_id].author, "You cannot tip your own post");
     // Fetch the bookMark
     Post memory _post = posts[_id];
     // Fetch the author
@@ -66,10 +95,10 @@ contract BookMark {
     payable(address(_author)).transfer(msg.value);
     // Increment the tip amount
     _post.tipAmount = _post.tipAmount + msg.value;
-    // Update the image
+    // Update the post
     posts[_id] = _post;
     // Trigger an event
-    emit PostTipped(_id, _post.hash, _post.description,_post.preview, _post.tipAmount, _author);
+    emit PostTipped(_id, _post.hash, _post.description,_post.preview, _post.tipAmount,_post.downloadAmount, _author);
   }
    // Fetches all the posts
     function getAllPosts() external view returns (Post[] memory _posts) {

@@ -1,46 +1,19 @@
-# Advanced Sample Hardhat Project
+**How to Export and Save Your Chrome Bookmarks**
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+    1. Open Chrome and click the icon with three vertical dots in the top-right corner.
+    2. Then hover over Bookmarks. 
+    3. Next, click Bookmark manager. 
+    4. Then click the icon with three vertical dots.
+    5. Next, click Export Bookmarks. 
+    6. Finally, choose a name and destination and click Save.
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+**How to add Rinkeby to MetaMask**
 
-Try running some of the following tasks:
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
-```
-
-# Etherscan verification
-
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
-
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
-
-```shell
-hardhat run --network ropsten scripts/deploy.ts
-```
-
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
-
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
-
-# Performance optimizations
-
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+    1.At the top left corner of the MetaMask interface, select “Ethereum Mainnet” to drop down the menu, then click the “Add Network” button.
+    2.The web will direct you to the Settings page, where you can add a blockchain network. We just need to manually add Rinkeby mainnet to MetaMask in the first use, then flexibly switch use later on.
+    3.Network Name: Rinkeby Test Network
+    New RPC URL: https://rinkeby.infura.io/v3/
+    ChainID: 4
+    Symbol: ETH
+    Block Explorer URL: https://rinkeby.etherscan.io

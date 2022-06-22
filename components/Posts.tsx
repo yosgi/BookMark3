@@ -18,29 +18,30 @@ export const Posts: React.FC = () => {
   const contract = useContext(ContractContext);
   const { connected, chainConnected } = useConnectWallet();
   const [assets, setAssets] = useState<Bookmark[]>([]);
-  const [visible, setVisible] = useState<boolean>(true)
-  const toggleVisible = () => {
-    setVisible(!visible)
+  const getPostList = async () => {
+    const posts = await contract.getAllPosts()
+    setAssets(posts)
+    console.log('posts', posts)
   }
   // download bookmark
-  const downloadBookmark = async (url: string) => {
+  const downloadBookmark = async (url: string,id:string) => {
+    const walletRes = await  contract.updateDownLoadAmount(id)
+    console.log('walletRes',walletRes)
     const res = await fetch(url);
     const blob = await res.blob();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "bookmark.html";
     a.click();
+    await getPostList()
   }
-  const getPostList = async () => {
-    const posts = await contract.getAllPosts()
-    setAssets(posts)
-    console.log('posts', posts)
-  }
+
   // tip post
   const tipPost = async (id:string) => {
-    await (await contract.tipImageOwner(id, { value: ethers.utils.parseEther("0.1") })).wait()
+    await (await contract.tipPostOwner(id, { value: ethers.utils.parseEther("0.1") })).wait()
     getPostList()
   }
+  
   useEffect(() => {
     
     if (contract && connected && chainConnected) {
@@ -85,9 +86,9 @@ export const Posts: React.FC = () => {
                           {JSON.parse(asset.preview).map((bookMark:Bookmark, index:Number) => {
                             return (
                               <div className="mb-2" key={index+''}>
-                                <a href={bookMark.href} target="_blank" className="flex">
+                                <div className="flex">
                                   <img className="mr-1 w-4 h-4" src={bookMark.icon}></img>{bookMark.title}
-                                </a>
+                                </div>
                               </div>
                             );
                           })}
@@ -97,8 +98,9 @@ export const Posts: React.FC = () => {
                   </Collapse>
                   <div className='pt-4 flex items-center'>
                     <div className="tooltip" data-tip="download">
-                      <a onClick={() => downloadBookmark('https://ipfs.infura.io/ipfs/' + asset.hash)} className='btn btn-sm btn-circle btn-ghost text-xs' > <FaDownload className='text-indigo-800'></FaDownload></a>
+                      <a onClick={() => downloadBookmark('https://ipfs.infura.io/ipfs/' + asset.hash,asset.id)} className='btn btn-sm btn-circle btn-ghost text-xs' > <FaDownload className='text-indigo-800'></FaDownload></a>
                     </div>
+                    <span className='ml-1 text-xs text-indigo-800'>{Number(ethers.utils.commify(asset.downloadAmount)) > 0 ? ethers.utils.commify(asset.downloadAmount):''}</span> 
                     <div className=" tooltip ml-8" data-tip="tip me">
                       <div onClick={()=> {tipPost(asset.id)}} className=' btn btn-sm btn-circle btn-ghost text-xs text-red-500'> <FaGratipay className='text-red-500 '></FaGratipay> </div>
                     </div>
@@ -148,7 +150,7 @@ export const Posts: React.FC = () => {
           
           <p className="text-yellow-600 text-sm leading-[22px]">If you need any help,</p>
 
-          <p className="text-yellow-600 text-sm leading-[22px]">Please contact me at <a className='link' href="mailto:18667911647yosgi@gmail.com">18667911647yosgi@gmail.com</a></p>
+          <p className="text-yellow-600 text-sm leading-[22px]">Feel free to contact me at <a className='link' href="mailto:18667911647yosgi@gmail.com">18667911647yosgi@gmail.com</a></p>
         </div>
       </div>
     </div>
