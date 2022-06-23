@@ -54,11 +54,11 @@ export const Posts: React.FC = () => {
     <div className='rounded-t-xl min-h-default  grid grid-cols-12 lg:gap-8  w-full bg-slate-100'>
       <div className="lg:col-span-8 md:col-span-12 col-span-12 mb-5 space-y-5   rounded-t-xl p-6 ">
 
-        <div className='rounded-none sm:rounded-xl  dark:border-gray-700/80 bg-white dark:bg-gray-900 divide-y-[1px] dark:divide-gray-700/80'>
+        <div className='rounded-none sm:rounded-xl  dark:border-gray-700/80 overflow-x-hidden bg-white dark:bg-gray-900 divide-y-[1px] dark:divide-gray-700/80'>
 
           { assets.length ? assets.map((asset: any,index) => {
             return (
-              <div className='p-5' key={asset.id}>
+              <div className='p-5'  key={asset.id}>
                 <div className='flex items-center pb-4 space-x-4'>
                   <Avatar
                     size={40}
@@ -72,7 +72,7 @@ export const Posts: React.FC = () => {
                   </div>
                 </div>
                 <div className='ml-[53px]'>
-                  <ReactMarkdown className="max-w-lg break-all">
+                  <ReactMarkdown className="max-w-lg break-all ">
                     {asset.description}
                   </ReactMarkdown>
                   <Collapse className='mt-4  border w-3/5 border-base-300 bg-base-100 rounded-box' icon="arrow">
