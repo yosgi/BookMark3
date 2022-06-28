@@ -28,7 +28,12 @@ module.exports = {
     rinkeby: {
       url: process.env.NEXT_PUBLIC_RENKEBY_URL || "",
       accounts:
-        process.env.NEXT_PUBLIC_RENKEBY_SECRET !== undefined ? [NEXT_PUBLIC_RENKEBY_SECRET] : [],
+        process.env.NEXT_PUBLIC_RENKEBY_SECRET !== undefined ? [process.env.NEXT_PUBLIC_RENKEBY_SECRET] : [],
+    },
+    arbitrum: {
+      url: 'https://rinkeby.arbitrum.io/rpc',
+      accounts:
+        process.env.NEXT_PUBLIC_RENKEBY_SECRET !== undefined ? [process.env.NEXT_PUBLIC_RENKEBY_SECRET] : [],
     }
   },
   gasReporter: {
